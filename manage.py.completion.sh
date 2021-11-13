@@ -5,7 +5,7 @@ function _complete_django_admin () {
         return
     fi
 
-    SUBCOMMANDS="changepassword createsuperuser remove_stale_contenttypes check compilemessages createcachetable dbshell diffsettings dumpdata flush inspectdb loaddata makemessages makemigrations migrate sendtestemail shell showmigrations sqlflush sqlmigrate sqlsequencereset squashmigrations startapp startproject test testserver clearsessions collectstatic findstatic runserver"
+    SUBCOMMANDS="$( django-admin | sed -n '/^ /p' | sed ';:a;N;$!ba;s/\n/ /g;s/ * / /g' )"
 
     COMPREPLY=(
         $(compgen -W "$SUBCOMMANDS" "${COMP_WORDS[1]}")
