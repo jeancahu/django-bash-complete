@@ -13,6 +13,15 @@ function _complete_django_admin () {
 }
 
 function _complete_django_manage () {
+    ## Load/dump data auto complete:
+    if [[ ${COMP_WORDS[1]} == "loaddata" || ${COMP_WORDS[1]} == "dumpdata" ]]
+    then
+        COMPREPLY=(
+            $(compgen -W "$( echo *.json | grep -v '*.json' )" "${COMP_WORDS[2]}")
+        )
+        return
+    fi
+
     if (( ${#COMP_WORDS[@]} > 2 ))
     then
         return
