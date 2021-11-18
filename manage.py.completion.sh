@@ -22,6 +22,21 @@ function _complete_django_manage () {
         return
     fi
 
+    if [[ ${COMP_WORDS[1]} == "migrate" || ${COMP_WORDS[1]} == "makemigrations" ]]
+    then
+        installed_apps=$( python -c "
+import os
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ecomm.settings')
+from django.conf import settings
+print(\" \".join([app for app in settings.INSTALLED_APPS if not app.startswith(\"django\")]))
+")
+
+        COMPREPLY=(
+            $(compgen -W "$installed_apps" "${COMP_WORDS[2]}")
+        )
+        return
+    fi
+
     if (( ${#COMP_WORDS[@]} > 2 ))
     then
         return
