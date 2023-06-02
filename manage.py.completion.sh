@@ -1,4 +1,3 @@
-
 function _complete_django_admin () {
     if (( ${#COMP_WORDS[@]} > 2 ))
     then
@@ -42,8 +41,7 @@ print(\" \".join([app for app in settings.INSTALLED_APPS if not app.startswith(\
         return
     fi
 
-    SUBCOMMANDS="changepassword createsuperuser remove_stale_contenttypes check compilemessages createcachetable dbshell diffsettings dumpdata flush inspectdb loaddata makemessages makemigrations migrate sendtestemail shell showmigrations sqlflush sqlmigrate sqlsequencereset squashmigrations startapp startproject test testserver clearsessions collectstatic findstatic runserver"
-
+    SUBCOMMANDS="$( ./manage.py help | grep '^ ' | sed '/^ * $/d;/^$/d;:a;N;$!ba;s/\\n/ /g;s/ * / /g' )"
     COMPREPLY=(
         $(compgen -W "$SUBCOMMANDS" "${COMP_WORDS[1]}")
     )
